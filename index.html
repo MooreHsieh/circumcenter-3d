@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>孔蓋中心座標計算</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="page-head">
+        <h1>孔蓋中心座標計算器</h1>
+        <p class="subtitle">外業量到孔蓋邊框三個點後，輸入北座標、東座標、高程，就能快速算出孔蓋中心。</p>
+        <p class="subtitle subtitle-note">可在「北座標」欄一次貼上 Excel 三欄資料，系統會自動帶入北座標、東座標、高程。</p>
+      </header>
+
+      <form id="circumcenter-form">
+        <section class="point-grid">
+          <fieldset>
+            <legend>A 點</legend>
+            <label>北座標 <input type="number" step="any" name="an" value="1" required data-point="a" data-axis="n" /></label>
+            <label>東座標 <input type="number" step="any" name="ae" value="0" required data-point="a" data-axis="e" /></label>
+            <label>高程 <input type="number" step="any" name="ah" value="0" required data-point="a" data-axis="h" /></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>B 點</legend>
+            <label>北座標 <input type="number" step="any" name="bn" value="0" required data-point="b" data-axis="n" /></label>
+            <label>東座標 <input type="number" step="any" name="be" value="1" required data-point="b" data-axis="e" /></label>
+            <label>高程 <input type="number" step="any" name="bh" value="0" required data-point="b" data-axis="h" /></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>C 點</legend>
+            <label>北座標 <input type="number" step="any" name="cn" value="0" required data-point="c" data-axis="n" /></label>
+            <label>東座標 <input type="number" step="any" name="ce" value="0" required data-point="c" data-axis="e" /></label>
+            <label>高程 <input type="number" step="any" name="ch" value="1" required data-point="c" data-axis="h" /></label>
+          </fieldset>
+        </section>
+
+        <button type="submit">計算孔蓋中心</button>
+      </form>
+
+      <section class="result" id="result" aria-live="polite">
+        <h2>結果</h2>
+        <div class="result-card">
+          <p class="result-title">孔蓋中心座標</p>
+          <div class="value-grid">
+            <div class="value-item">
+              <span class="value-label">北座標</span>
+              <span class="value-number" id="center-n">-</span>
+            </div>
+            <div class="value-item">
+              <span class="value-label">東座標</span>
+              <span class="value-number" id="center-e">-</span>
+            </div>
+            <div class="value-item">
+              <span class="value-label">高程</span>
+              <span class="value-number" id="center-h">-</span>
+            </div>
+          </div>
+          <button type="button" id="copy-center" class="secondary-btn" disabled>複製孔蓋中心（北/東/高）</button>
+        </div>
+        <p>參考半徑 = <span id="radius">-</span></p>
+        <p class="message" id="message"></p>
+      </section>
+
+      <section class="plot-panel">
+        <div class="plot-card">
+          <canvas id="plan-view-canvas" aria-label="A B C 與孔蓋中心示意圖"></canvas>
+          <div class="plot-overlay plot-info-overlay">
+            <p class="result-title">平面示意圖（ABC 平面投影）</p>
+            <p class="plot-subtitle">顯示三點、中心與外接圓，作為孔蓋中心檢核。</p>
+          </div>
+          <div class="plot-overlay plot-legend-overlay" aria-hidden="true">
+            <div class="plot-legend">
+              <span class="legend-item"><i class="dot dot-blue"></i>A / B / C 點</span>
+              <span class="legend-item"><i class="dot dot-red"></i>孔蓋中心</span>
+              <span class="legend-item"><i class="dot dot-ring"></i>外接圓</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <button type="button" id="to-top-btn" aria-label="回到頂部">↑</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
